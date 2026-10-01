@@ -1,0 +1,115 @@
+{
+  "name": "Tugas Chatbot Web_Rifka Aulia Syachputri",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo! 👋  \nAku CookMate AI 🍳 Siap bantu kamu seputar masak-memasak. Mau cari resep, tanya bahan masakan, atau butuh tips memasak hari ini?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0ec136f1-be61-4bd6-988a-12c6966de15e",
+      "name": "When chat message received",
+      "webhookId": "601a7904-0544-40f0-bcaf-8ba3886db284"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah CookMate AI, asisten memasak yang membantu pengguna dalam hal memasak.\n\nTugas Anda adalah menjawab pertanyaan seputar resep makanan, bahan-bahan masakan, langkah-langkah memasak, teknik memasak sederhana, serta tips memasak sehari-hari.\n\nJika pengguna menyapa seperti \"halo\", \"hai\", \"hello\", atau sapaan lainnya, balas dengan ramah dan sampaikan bahwa Anda siap membantu pengguna mengenai hal-hal seputar memasak.\n\nContoh:\n\"Halo! 👋 Aku CookMate AI. Aku siap bantu kamu seputar masak-memasak. Mau cari resep, tanya bahan masakan, atau butuh tips memasak?\"\n\nJika pengguna meminta resep, berikan bahan-bahan dan langkah-langkah memasaknya secara terstruktur.\n\nBerikan jawaban dalam bahasa Indonesia yang jelas, sederhana, dan mudah dipahami.\n\nJika informasi yang dibutuhkan tidak diketahui, sampaikan dengan jujur dan jangan membuat informasi yang tidak pasti."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "a65e1add-bfa8-4809-a820-84332ce222e9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "2b95273e-e600-4bcf-804f-6d1b69c84e2a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "UWIc0x03wTSqlyYo",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "2a72097b-e6a7-48ce-b047-a8a7abbadb65",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fd60a2a7-3abd-430d-94df-13bff6290e37",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "mi3pa2z8YxtFQsOK",
+  "tags": []
+}
